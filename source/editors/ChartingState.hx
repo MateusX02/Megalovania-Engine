@@ -82,6 +82,14 @@ class ChartingState extends MusicBeatState
 
 	var _file:FileReference;
 
+	var key_space:FlxUIButton;
+
+	var key_teste:FlxUIButton;
+
+	var key_jogar:FlxUIButton;
+
+	var key_menos:FlxUIButton;
+
 	var UI_box:FlxUITabMenu;
 
 	/**
@@ -164,9 +172,6 @@ class ChartingState extends MusicBeatState
 
 	var waveformSprite:FlxSprite;
 	var gridLayer:FlxTypedGroup<FlxSprite>;
-
-	var key_space:FlxButton;
-	var key_shift:FlxButton;
 
 	override function create()
 	{
@@ -281,16 +286,14 @@ class ChartingState extends MusicBeatState
 		UI_box.scrollFactor.set();
 
 		var text:String =
-		"W/S or Mouse Wheel - Change Conductor's strum time
-		\nA or Left/D or Right - Go to the previous/next section
-		\nHold Shift to move 4x faster
-		\nHold Control and click on an arrow to select it
+		"Cima ou Baixo para se mover lentamente pelo chart
+		\nEsquerda ou Direita para mudar de seçao
 		\nZ/X - Zoom in/out
 		\n
-		\nEsc - Test your chart inside Chart Editor
-		\nEnter - Play your chart
-		\nQ/E - Decrease/Increase Note Sustain Length
-		\nSpace - Stop/Resume song";
+		\nEsc ou 'teste' - para testar seu chart direto do editor
+		\nEnter ou botao back do Android - Para sair e jogar seu chart
+		\nQ/E ou '-/+' - Reduzem ou Aumentam a duraçao da nota
+		\nSpace ou 'Auto' - Para ou avança seu chart automaticamente";
 
 		var tipTextArray:Array<String> = text.split('\n');
 		for (i in 0...tipTextArray.length) {
@@ -329,15 +332,38 @@ class ChartingState extends MusicBeatState
 		
 		updateGrid();
 
-		key_space = new FlxButton(60, 60, "");
-        key_space.loadGraphic(Paths.image("key_space")); //"assets/images/key_space.png"
+				key_space = new FlxUIButton(60, 60, "Auto");
+        key_space.setLabelFormat("VCR OSD Mono",24,FlxColor.BLACK,"center");
+		key_space.resize(125,50);
         key_space.alpha = 0.75;
         add(key_space);
 
-        key_shift = new FlxButton(60, 200, "");
-        key_shift.loadGraphic(Paths.image("key_shift")); //"assets/images/key_shift.png"
-        key_shift.alpha = 0.75;
-        add(key_shift);
+		key_teste = new FlxUIButton(60, (key_space.y + key_space.height + 25), "Testar");
+        key_teste.setLabelFormat("VCR OSD Mono",24,FlxColor.BLACK,"center");
+		key_teste.resize(125,50);
+        key_teste.alpha = 0.75;
+        add(key_teste);
+
+		#if mobileC
+		addVirtualPad(FULL, A);
+		#end
+		key_jogar = new FlxUIButton(60, (key_teste.y + key_teste.height + 25), "+");
+        key_jogar.setLabelFormat("VCR OSD Mono",24,FlxColor.BLACK,"center");
+		key_jogar.resize(42,50);
+        key_jogar.alpha = 0.75;
+        add(key_jogar);
+
+		key_menos = new FlxUIButton((key_jogar.x + key_jogar.width + 25), key_jogar.y, "-");
+        key_menos.setLabelFormat("VCR OSD Mono",24,FlxColor.BLACK,"center");
+		key_menos.resize(42,50);
+        key_menos.alpha = 0.75;
+        add(key_menos);
+
+		_pad = new FlxVirtualPad(FULL, NONE);
+    	_pad.alpha = 0.75;
+
+		super.create();
+	}
 
 		#if mobileC
 		addVirtualPad(FULL, A);
@@ -1167,12 +1193,17 @@ class ChartingState extends MusicBeatState
 
 		if (!blockInput)
 		{
-			if (FlxG.keys.justPressed.ESCAPE)
+			if (FlxG.keys.justPressed.ESCAPE || key_teste.justPressed)
 			{
 				autosaveSong();
 				LoadingState.loadAndSwitchState(new editors.EditorPlayState(sectionStartTime()));
 			}
-			if (FlxG.keys.justPressed.ENTER #if mobileC|| _virtualpad.buttonA.justPressed #end)
+							#if android
+			var androidback = FlxG.android.justReleased.BACK;
+			#else
+			var androidback = false;
+			#end
+			if (FlxG.keys.justPressed.ENTER || androidback #if mobileC || _virtualpad.buttonA.justPressed #end)
 			{
 				autosaveSong();
 				FlxG.mouse.visible = false;
@@ -1186,11 +1217,11 @@ class ChartingState extends MusicBeatState
 			}
 
 			if(curSelectedNote != null && curSelectedNote[1] > -1) {
-				if (FlxG.keys.justPressed.E)
+					if (FlxG.keys.justPressed.E || key_jogar.justPressed)
 				{
 					changeNoteSustain(Conductor.stepCrochet);
 				}
-				if (FlxG.keys.justPressed.Q)
+				if (FlxG.keys.justPressed.Q || key_menos.justPressed)
 				{
 					changeNoteSustain(-Conductor.stepCrochet);
 				}
@@ -1205,9 +1236,9 @@ class ChartingState extends MusicBeatState
 				updateZoom();
 			}
 
-			if (FlxG.keys.justPressed.TAB)
+		if (FlxG.keys.justPressed.TAB)
 			{
-				if (FlxG.keys.justPressed.SPACE || key_space.justPressed)
+				if (FlxG.keys.pressed.SHIFT)
 				{
 					UI_box.selected_tab -= 1;
 					if (UI_box.selected_tab < 0)

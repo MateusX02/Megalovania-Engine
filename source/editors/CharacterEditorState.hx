@@ -195,7 +195,7 @@ class CharacterEditorState extends MusicBeatState
 		reloadCharacterOptions();
 
 	    #if mobileC
-		addVirtualPad(FULL, A_B_X_Y);
+		addVirtualPad(FULL, A_B_X_C);
 
 		var camcontrol = new FlxCamera();
 		FlxG.cameras.add(camcontrol);
