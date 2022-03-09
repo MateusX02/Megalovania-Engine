@@ -68,6 +68,26 @@ class Main extends Sprite
 			gameHeight = Math.ceil(stageHeight / zoom);
 		}
 
+			public static function dumpCache() // uau
+		{
+			@:privateAccess
+			for (key in FlxG.bitmap._cache.keys())
+			{
+				var obj = FlxG.bitmap._cache.get(key);
+				if (obj != null)
+				{
+					Assets.cache.removeBitmapData(key);
+					FlxG.bitmap._cache.remove(key);
+					obj.destroy();
+				}
+			}
+			Paths.localTrackedAssets = [];
+			Paths.currentTrackedAssets = [];
+			Assets.cache.clear("songs");
+			// */
+		}
+
+
 		#if !debug
 		initialState = TitleState;
 		#end

@@ -69,16 +69,16 @@ class PlayState extends MusicBeatState
 	public static var STRUM_X_MIDDLESCROLL = -278;
 
 	public static var ratingStuff:Array<Dynamic> = [
-		['You Suck!', 0.2], //From 0% to 19%
-		['Shit', 0.4], //From 20% to 39%
-		['Bad', 0.5], //From 40% to 49%
-		['Bruh', 0.6], //From 50% to 59%
+		['Horrivel!', 0.2], //From 0% to 19%
+		['Uma merda!', 0.4], //From 20% to 39%
+		['Ruim', 0.5], //From 40% to 49%
+		['Ainda ruim', 0.6], //From 50% to 59%
 		['Meh', 0.69], //From 60% to 68%
-		['Nice', 0.7], //69%
-		['Good', 0.8], //From 70% to 79%
-		['Great', 0.9], //From 80% to 89%
-		['Sick!', 1], //From 90% to 99%
-		['Perfect!!', 1] //The value on this one isn't used actually, since Perfect is always "1"
+		['Maneirinho', 0.7], //69%
+		['Bom', 0.8], //From 70% to 79%
+		['Boa!', 0.9], //From 80% to 89%
+		['Maneiro!', 1], //From 90% to 99%
+		['Perfeito!!', 1] //The value on this one isn't used actually, since Perfect is always "1"
 	];
 	
 	#if (haxe >= "4.0.0")
@@ -608,6 +608,34 @@ class PlayState extends MusicBeatState
 					add(bgGirls);
 				}
 
+						case 'quarto':
+			if(ClientPrefs.lowQuality){
+				var bg:BGSprite = new BGSprite('quarto/quarto', 0, 0, 0.8, 0.8);
+				bg.setGraphicSize(Std.int(bg.width * 0.8));
+				bg.updateHitbox();
+				add(bg);
+			}
+
+				case 'mugen':
+				GameOverSubstate.characterName = 'bf-pixel-dead';
+
+
+				if(ClientPrefs.lowQuality){
+				var bg:BGSprite = new BGSprite('mugen/mugen', 0, 0, 0.8, 0.8);
+				bg.setGraphicSize(Std.int(bg.width * 0.8));
+				bg.updateHitbox();
+				add(bg);
+				}
+
+			case 'space':
+			if(ClientPrefs.lowQuality){
+				defaultCamZoom = 0.6;
+				var bg:BGSprite = new BGSprite('quarto/space', -1800, -820, 0.8, 0.8);
+				bg.setGraphicSize(Std.int(bg.width * 1.6));
+				bg.updateHitbox();
+				add(bg);	
+			}
+
 			case 'schoolEvil': //Week 6 - Thorns
 				GameOverSubstate.deathSoundName = 'fnf_loss_sfx-pixel';
 				GameOverSubstate.loopSoundName = 'gameOver-pixel';
@@ -790,7 +818,7 @@ class PlayState extends MusicBeatState
 		timeBarBG.scrollFactor.set();
 		timeBarBG.alpha = 0;
 		timeBarBG.visible = !ClientPrefs.hideTime;
-		timeBarBG.color = FlxColor.BLACK;
+		timeBarBG.color = FlxColor.BLUE;
 		timeBarBG.xAdd = -4;
 		timeBarBG.yAdd = -4;
 		add(timeBarBG);

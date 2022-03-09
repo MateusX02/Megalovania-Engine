@@ -51,6 +51,7 @@ class FreeplayState extends MusicBeatState
 		Paths.destroyLoadedImages();
  		#end	
 		WeekData.reloadWeekFiles(false);
+		Main.dumpCache(); // What can go wrong?
 		#if desktop
 		// Updating Discord Rich Presence
 		DiscordClient.changePresence("In the Menus", null);
@@ -98,7 +99,7 @@ class FreeplayState extends MusicBeatState
 
 		for (i in 0...songs.length)
 		{
-			var songText:Alphabet = new Alphabet(0, (70 * i) + 30, songs[i].songName, true, false);
+			var songText:Alphabet = new Alphabet(0, (70 * i) + 30, songs[i].display, true, false);
 			songText.isMenuItem = true;
 			songText.targetY = i;
 			grpSongs.add(songText);
@@ -161,15 +162,15 @@ class FreeplayState extends MusicBeatState
 		add(textBG);
 		#if desktop
 			#if PRELOAD_ALL
-			var leText:String = "Press SPACE to listen to this Song / Press RESET to Reset your Score and Accuracy.";
+			var leText:String = "Aperte X para ver uma previa da musica / Aperte C para resetar seu score.";
 			#else
-			var leText:String = "Press RESET to Reset your Score and Accuracy.";
+			var leText:String = "Aperte C para resetar seu score.";
 			#end
 		#else
                         #if PRELOAD_ALL
-			var leText:String = "Press X to listen to this Song / Press Y to Reset your Score and Accuracy.";
+			var leText:String = "Aperte X para ver uma previa da musica / Aperte C para resetar seu score.";
 			#else
-			var leText:String = "Press Y to Reset your Score and Accuracy.";
+			var leText:String = "Aperte C para resetar seu score";
 			#end			
 		#end
 		var text:FlxText = new FlxText(textBG.x, textBG.y + 4, FlxG.width, leText, 18);
@@ -178,7 +179,7 @@ class FreeplayState extends MusicBeatState
 		add(text);
 
 		#if mobileC
-		addVirtualPad(FULL, A_B_X_Y);
+		addVirtualPad(FULL, A_B_X_C);
 		#end
 
 		super.create();
@@ -189,9 +190,9 @@ class FreeplayState extends MusicBeatState
 		super.closeSubState();
 	}
 
-	public function addSong(songName:String, weekNum:Int, songCharacter:String, color:Int)
+	public function addSong(songName:String, weekNum:Int, songCharacter:String, color:Int, display:String)
 	{
-		songs.push(new SongMetadata(songName, weekNum, songCharacter, color));
+		songs.push(new SongMetadata(songName, weekNum, songCharacter, color, display));
 	}
 
 	/*public function addWeek(songs:Array<String>, weekNum:Int, weekColor:Int, ?songCharacters:Array<String>)
@@ -307,7 +308,7 @@ class FreeplayState extends MusicBeatState
 					
 			destroyFreeplayVocals();
 		}
-		else if(controls.RESET #if mobileC || _virtualpad.buttonY.justPressed #end)
+		else if(controls.RESET #if mobileC || _virtualpad.buttonC.justPressed #end)
 		{
 			openSubState(new ResetScoreSubState(songs[curSelected].songName, curDifficulty, songs[curSelected].songCharacter));
 			FlxG.sound.play(Paths.sound('scrollMenu'));
@@ -415,6 +416,7 @@ class SongMetadata
 	public var songName:String = "";
 	public var week:Int = 0;
 	public var songCharacter:String = "";
+	public var display:String = "";
 	public var color:Int = -7179779;
 	public var folder:String = "";
 
@@ -423,6 +425,7 @@ class SongMetadata
 		this.songName = song;
 		this.week = week;
 		this.songCharacter = songCharacter;
+		this.display = display;
 		this.color = color;
 		this.folder = Paths.currentModDirectory;
 		if(this.folder == null) this.folder = '';
