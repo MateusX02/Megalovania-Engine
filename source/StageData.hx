@@ -42,7 +42,7 @@ class StageData {
 					stage = 'schoolEvil';
 				case 'potency' | 'big-boy':
 						stage = 'quarto';
-				case 'killer-tibba';
+				case 'killer-tibba':
 					stage = 'space';
 				default:
 					stage = 'stage';
