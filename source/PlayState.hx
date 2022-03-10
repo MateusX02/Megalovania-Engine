@@ -1719,7 +1719,7 @@ class PlayState extends MusicBeatState
 			{
 				playerStrums.add(babyArrow);
 			}
-			else
+		else
 			{
 				opponentStrums.add(babyArrow);
 			}
@@ -1727,9 +1727,8 @@ class PlayState extends MusicBeatState
 			strumLineNotes.add(babyArrow);
 			babyArrow.postAddedToGroup();
 		}
-	}
 
-	if(player == 1 && ClientPrefs.otimizacao)
+		if(player == 1 && ClientPrefs.focus)
 			{
 				updateNoteBGPos();
 				noteBG.alpha = 0.7;
@@ -1738,7 +1737,7 @@ class PlayState extends MusicBeatState
 				}
 			}
 	}
-
+	
 	override function openSubState(SubState:FlxSubState)
 	{
 		if (paused)
