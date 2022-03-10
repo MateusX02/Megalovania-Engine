@@ -1,8 +1,8 @@
 {
 	"songs": [
-		["Spookeez", "spooky", [34, 51, 68]],
-		["South", "spooky", [34, 51, 68]],
-		["Monster", "monster", [34, 51, 68]]
+		["Spookeez", "spooky", [34, 51, 68], "Assustador"],
+		["South", "spooky", [34, 51, 68], "Sul"],
+		["Monster", "monster", [34, 51, 68], "Monstro"]
 	],
 
 	"weekCharacters": [
@@ -12,7 +12,7 @@
 	],
 	"weekBackground": "halloween",
 
-	"storyName": "Spooky Month",
+	"storyName": "Mes assustador",
 	"weekBefore": "week1",
 	"weekName": "Week 2",
 	"startUnlocked": true,

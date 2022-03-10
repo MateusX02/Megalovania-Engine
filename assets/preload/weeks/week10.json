@@ -13,8 +13,8 @@
 	"weekBackground": "stage",
 
 	"storyName": "Papai querido",
-	"weekBefore": "tutorial",
-	"weekName": "Week 1",
+	"weekBefore": "week9",
+	"weekName": "Week 10",
 	"startUnlocked": true,
 
 	"hideStoryMode": false,
