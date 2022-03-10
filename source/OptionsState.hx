@@ -742,6 +742,7 @@ class PreferencesSubstate extends MusicBeatSubstate
 		'Framerate', //Apparently 120FPS isn't correctly supported on Browser? Probably it has some V-Sync shit enabled by default, idk
 		#end
 		'GAMEPLAY',
+		'Modo FOCUS',
 		'Downscroll',
 		'Middlescroll',
 		'Ghost Tapping',
@@ -880,11 +881,15 @@ class PreferencesSubstate extends MusicBeatSubstate
 				switch(options[curSelected]) {
 					case 'Contadores de FPS/ Memoria':
 						ClientPrefs.showFPS = !ClientPrefs.showFPS;
-						if(Main.fpsVar != null)
+						if(Main.fpsVar != null){
 							Main.fpsVar.visible = ClientPrefs.showFPS;
+							Main.memoryCounter.visible = ClientPrefs.showFPS;}
 
 					case 'Qualidade baixa':
 						ClientPrefs.lowQuality = !ClientPrefs.lowQuality;
+
+					case 'Modo FOCUS':
+						ClientPrefs.otimizacao = !ClientPrefs.otimizacao;
 
 					case 'Anti-Serrilhado':
 						ClientPrefs.globalAntialiasing = !ClientPrefs.globalAntialiasing;
@@ -1004,6 +1009,8 @@ class PreferencesSubstate extends MusicBeatSubstate
 		switch(options[curSelected]) {
 			case 'Framerate':
 				daText = "Auto explicativo.";
+			case 'Modo FOCUS':
+				daText = "Deixa um tipo de fundo nas notas.";
 			case 'Delay das Notas':
 				daText = Bixo, preguica.";
 			case 'Contadores de FPS/ Memoria':
@@ -1085,6 +1092,8 @@ class PreferencesSubstate extends MusicBeatSubstate
 				switch(options[checkboxNumber[i]]) {
 					case 'Contadores de FPS/ Memoria':
 						daValue = ClientPrefs.showFPS;
+					case 'Modo FOCUS':
+					 daValue = ClientPrefs.otimizacao;
 					case 'Qualidade baixa':
 						daValue = ClientPrefs.lowQuality;
 					case 'Anti-Serrilhado':

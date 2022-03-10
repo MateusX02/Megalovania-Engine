@@ -1729,6 +1729,16 @@ class PlayState extends MusicBeatState
 		}
 	}
 
+	if(player == 1 && ClientPrefs.otimizacao)
+			{
+				updateNoteBGPos();
+				noteBG.alpha = 0.7;
+				if(!ClientPrefs.middleScroll) {
+				noteBG2.alpha = 0.7;
+				}
+			}
+	}
+
 	override function openSubState(SubState:FlxSubState)
 	{
 		if (paused)
@@ -2363,6 +2373,8 @@ class PlayState extends MusicBeatState
 					daNote.destroy();
 				}
 			});
+			if(ClientPrefs.otimizacao)
+				updateNoteBGPos();
 		}
 		checkEventNote();
 
