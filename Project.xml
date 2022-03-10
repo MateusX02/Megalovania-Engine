@@ -165,7 +165,7 @@
 	//Diretório longo mas é para melhor personalização
 	
 	<icon path="assets/preload/images/daGameIcon/icon16.png" size='16'/>
-	<icon path="daGameIcondaGameIcon/icon32.png" size='32'/>
-	<icon path="daGameIcondaGameIcon/icon64.png" size='64'/>
-	<icon path="daGameIcondaGameIcon/iconOG.png" />
+	<icon path="assets/preload/images/daGameIcon/icon32.png" size='32'/>
+	<icon path="assets/preload/images/daGameIcon/icon64.png" size='64'/>
+	<icon path="assets/preload/images/daGameIcon/iconOG.png" />
 </project>
